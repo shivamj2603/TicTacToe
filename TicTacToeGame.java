@@ -58,20 +58,30 @@ public class TicTacToeGame {
 	 * @param participant
 	 */
 	public static void moveToBoard(Scanner input,char participant,Chance chance) {
-		int index;
-		System.out.println("Enter the index you wish to move to:");
-		index = input.nextInt();
-		input.nextLine();
-		if((index >=1 && index <= 9)) {
-			if(isBoardIndexFree(index)) {
-				makeMove(index,participant,board);
-				showBoard();
-				checkGameStatus(input,participant, chance);
+		if(chance == Chance.HumanPlayer) {
+			int index;
+			System.out.println("Enter the index you wish to move to:");
+			index = input.nextInt();
+			input.nextLine();
+			if((index >=1 && index <= 9)) {
+				if(isBoardIndexFree(index)) {
+					makeMove(index,participant,board);
+					showBoard();
+					checkGameStatus(input,participant, chance);
+				}
+				else {
+					System.out.println("Invalid Index or Index not Free.Please enter another index");
+					moveToBoard(input,participant,chance);
+				}
 			}
-			else {
-				System.out.println("Invalid Index or Index not Free.Please enter another index");
-				moveToBoard(input,participant,chance);
+		}
+		else {
+			int index = getWin(computer);
+			if(index != 0) {
+				makeMove(index,computer,board);
 			}
+			count++;
+			checkGameStatus(input,computer,Chance.ComputerPlayer);
 		}
 	}
 	/**Usecase 5
@@ -104,7 +114,7 @@ public class TicTacToeGame {
 	 */
 	public static void toss(Scanner input) {
 		int random = (int) Math.floor((Math.random() * 2)) + 1;
-		if(random==1) {
+		if(random == 1) {
 			System.out.println("You Start");
 			moveToBoard(input,player, Chance.HumanPlayer);	
 		}
@@ -113,6 +123,13 @@ public class TicTacToeGame {
 			moveToBoard(input, computer, Chance.ComputerPlayer);
 		}
 	}
+	/**
+	 * Usecase 7
+	 * Function checks for winning condition
+	 * @param board
+	 * @param participant
+	 * @return
+	 */
 	public static boolean checkWin(char[] board, char participant) {
 		boolean checkWin = false;
 		if(board[1] == board[2] && board[2] == board[3] && board[2] == participant ||
@@ -127,6 +144,11 @@ public class TicTacToeGame {
 		}
 		return checkWin;
 	}
+	/**
+	 * Usecase 7
+	 * Function checks for game tie condition
+	 * @return
+	 */
 	public static boolean checkTie() {
 		boolean checkTie = false;
 		if (count == 9) {
@@ -134,6 +156,13 @@ public class TicTacToeGame {
 		}
 		return checkTie;
 	}
+	/**
+	 * Usecase 7
+	 * function checks for the game status win/tie/continue
+	 * @param input
+	 * @param participant
+	 * @param chance
+	 */
 	public static void checkGameStatus(Scanner input, char participant, Chance chance) {
 		if (checkWin(board, participant)) {
 			if (participant == player) {
@@ -152,6 +181,27 @@ public class TicTacToeGame {
 			}
 		}
 	}
+	/**
+	 * Usecase 8
+	 * Function checks whether the computer can make a winning move or not
+	 * @param participant
+	 * @return
+	 */
+	public static int getWin(char participant) {
+		int index = 0;
+		char[] copyBoard = board;
+		for(int iteration = 1; iteration <= 9 ; iteration++) {
+			if(copyBoard[index] == ' ') {
+				makeMove(iteration, participant,copyBoard);
+				if(checkWin(copyBoard,participant)) {
+					index = iteration;
+					break;
+				}
+			}
+		}
+		return index;
+	}
+
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
