@@ -85,9 +85,15 @@ public class TicTacToeGame {
 				if(index != 0) {
 					makeMove(index,computer,board);
 				}
+				else {
+					index = playEdges();
+					if(index != 0) {
+						makeMove(index,computer,board);
+					}
+				}
+				count++;
+				checkGameStatus(input,computer,Chance.ComputerPlayer);
 			}
-			count++;
-			checkGameStatus(input,computer,Chance.ComputerPlayer);
 		}
 	}
 	/**Usecase 5
@@ -207,6 +213,20 @@ public class TicTacToeGame {
 		}
 		return index;
 	}
+	/**Usecase 10
+	 * Function checks whether the edges are available to use
+	 * @return
+	 */
+	public static int playEdges() {
+		int[] indices = {1,3,7,9};
+		for(int index : indices) {
+			if(board[index] == ' ') {
+				return index;
+			}
+		}
+		return 0;
+	}
+
 
 
 	public static void main(String[] args) {
