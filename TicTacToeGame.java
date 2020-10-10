@@ -5,6 +5,7 @@ import java.util.*;
 public class TicTacToeGame {
 	static char[] board;
 	static char player,computer;
+	static int count;
 
 	/**
 	 * UseCase 1
@@ -59,8 +60,8 @@ public class TicTacToeGame {
 		index = input.nextInt();
 		input.nextLine();
 		if((index >=1 && index <= 9)) {
-			if(board[index] != ' ') {
-				board[index] = participant;
+			if(isBoardIndexFree(index)) {
+				makeMove(index,participant,board);
 				showBoard();
 			}
 		}
@@ -68,6 +69,29 @@ public class TicTacToeGame {
 			System.out.println("Invalid Index or Index not Free.Please enter another index");
 			moveToBoard(input,participant);
 		}
+	}
+	/**Usecase 5
+	 * Function checks whether the given index on board is free or not
+	 * @param index
+	 * @return
+	 */
+	public static boolean isBoardIndexFree(int index) {
+		boolean free = false;
+		if(board[index] == ' ') {
+			free = true;
+		}
+		return free;
+	}
+	/**
+	 * UseCase 5
+	 * Function makes the move on the board
+	 * @param index
+	 * @param participant
+	 * @param board
+	 */
+	public static void makeMove(int index,char participant,char[] board) {
+		board[index] = participant;
+		count++;                       //count of number of plays
 	}
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
