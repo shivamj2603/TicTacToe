@@ -66,11 +66,12 @@ public class TicTacToeGame {
 			if(isBoardIndexFree(index)) {
 				makeMove(index,participant,board);
 				showBoard();
+				checkGameStatus(input,participant, chance);
 			}
-		}
-		else {
-			System.out.println("Invalid Index or Index not Free.Please enter another index");
-			moveToBoard(input,participant,chance);
+			else {
+				System.out.println("Invalid Index or Index not Free.Please enter another index");
+				moveToBoard(input,participant,chance);
+			}
 		}
 	}
 	/**Usecase 5
@@ -112,6 +113,46 @@ public class TicTacToeGame {
 			moveToBoard(input, computer, Chance.ComputerPlayer);
 		}
 	}
+	public static boolean checkWin(char[] board, char participant) {
+		boolean checkWin = false;
+		if(board[1] == board[2] && board[2] == board[3] && board[2] == participant ||
+				board[1] == board[4] && board[4] == board[7] && board[4] == participant ||
+				board[1] == board[5] && board[5] == board[9] && board[5] == participant ||
+				board[2] == board[5] && board[5] == board[8] && board[5] == participant ||
+				board[3] == board[6] && board[6] == board[9] && board[6] == participant ||
+				board[3] == board[5] && board[5] == board[7] && board[5] == participant ||
+				board[4] == board[5] && board[5] == board[6] && board[5] == participant ||
+				board[7] == board[8] && board[8] == board[9] && board[8] == participant ) {
+			checkWin = true;
+		}
+		return checkWin;
+	}
+	public static boolean checkTie() {
+		boolean checkTie = false;
+		if (count == 9) {
+			checkTie = true;
+		}
+		return checkTie;
+	}
+	public static void checkGameStatus(Scanner input, char participant, Chance chance) {
+		if (checkWin(board, participant)) {
+			if (participant == player) {
+				System.out.println(" You Win");
+			} else {
+				System.out.println(" Computer Wins");
+			}
+		} else if (checkTie()) {
+			System.out.println("Game Tied");
+		} else {
+			if(chance == Chance.HumanPlayer){
+				moveToBoard(input,computer,Chance.ComputerPlayer);
+			}
+			else {
+				moveToBoard(input,player,Chance.HumanPlayer);
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		createBoard() ;
@@ -123,6 +164,7 @@ public class TicTacToeGame {
 			computer = 'X';
 		}
 		showBoard();
+		toss(input);
 	}
 }
 
