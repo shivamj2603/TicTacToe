@@ -90,10 +90,23 @@ public class TicTacToeGame {
 					if(index != 0) {
 						makeMove(index,computer,board);
 					}
+					else
+					{
+						index = playCenter();
+						if(index == 5) {
+							makeMove(index,computer,board);
+						}
+						else
+						{
+							index = playSide();
+							makeMove(index,computer,board);
+						}
+					}
 				}
-				count++;
-				checkGameStatus(input,computer,Chance.ComputerPlayer);
 			}
+			count++;
+			showBoard();
+			checkGameStatus(input,computer,Chance.ComputerPlayer);
 		}
 	}
 	/**Usecase 5
@@ -226,9 +239,32 @@ public class TicTacToeGame {
 		}
 		return 0;
 	}
+	/**
+	 * Usecase 11
+	 * Function checks whether the center is available to use
+	 * @return
+	 */
+	public static int playCenter() {
+		if(board[5] == ' ') {
+			return 5;
+		}
+		return 0;
+	}
 
-
-
+	/**
+	 * Usecase 11
+	 * Function gives the indices on the sides available to use
+	 * @return
+	 */
+	public static int playSide() {
+		int[] indices = {2,4,6,8};
+		for(int index : indices) {
+			if(board[index] == ' ') {
+				return index;
+			}
+		}
+		return 0;
+	}
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		createBoard() ;
