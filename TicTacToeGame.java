@@ -46,6 +46,29 @@ public class TicTacToeGame {
 		System.out.println("--------------------");
 		System.out.println(" | " + board[7] + " | " + " | " + board[8] + " | " + " | " + board[9] + " | ");	
 	}
+	/**
+	 * Usecase 4
+	 * Function helps the user to move to a particular position on the board
+	 * if the position is valid and free
+	 * @param input
+	 * @param participant
+	 */
+	public static void moveToBoard(Scanner input,char participant) {
+		int index;
+		System.out.println("Enter the index you wish to move to:");
+		index = input.nextInt();
+		input.nextLine();
+		if((index >=1 && index <= 9)) {
+			if(board[index] != ' ') {
+				board[index] = participant;
+				showBoard();
+			}
+		}
+		else {
+			System.out.println("Invalid Index or Index not Free.Please enter another index");
+			moveToBoard(input,participant);
+		}
+	}
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		createBoard() ;
